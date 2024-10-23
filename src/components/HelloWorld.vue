@@ -1,9 +1,10 @@
 <script setup lang="ts">
-/*defineProps<{
+import { defineProps } from 'vue'
+defineProps<{
   msg: string
-}>()*/
+}>()
 
-const props = defineProps(['msg'])
+//const props = defineProps(['msg'])
 </script>
 
 <template>
