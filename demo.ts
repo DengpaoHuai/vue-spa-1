@@ -1,3 +1,3 @@
-const demo: number = 42
+const demo: number = 42;
 
-console.log(demo)
+console.log(demo);
