@@ -1,0 +1,38 @@
+<script setup lang="ts">
+import useQuery from '@/composables/useQuery';
+import { getCars as getCarsService } from '@/services/cars.service';
+import { useCarStore } from '@/stores/carStore';
+import type { Car } from '@/types/cars';
+import { storeToRefs } from 'pinia';
+import { watch } from 'vue';
+
+const { data, loading, error } = useQuery<Car[]>(getCarsService)
+const { getCars } = storeToRefs(useCarStore())
+const { setAllCars } = useCarStore()
+
+watch(data, (newData) => {
+    setAllCars(newData!)
+})
+
+const deleteCar = (id: string) => {
+    console.log(id)
+
+}
+
+
+
+</script>
+
+<template>
+    <RouterLink to="/cars/create">Créer une voiture</RouterLink>
+    <p v-if="loading">loading...</p>
+    <p v-if="error">error : {{ error }}</p>
+    <div v-if="getCars">
+        <div v-for="(car) in getCars" :key="car._id">
+            <p>{{ car.model }}</p>
+            <button @click="deleteCar(car._id)">
+                delete car
+            </button>
+        </div>
+    </div>
+</template>

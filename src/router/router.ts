@@ -1,3 +1,4 @@
+import CarsListScreen from '@/pages/CarsListScreen.vue';
 import CreateCarForm from '@/pages/CreateCarForm.vue';
 import DemoPage from '@/pages/DemoPage.vue';
 import PlanetListComposable from '@/pages/PlanetListComposable.vue';
@@ -15,6 +16,10 @@ const routes = [
   {
     path: '/cars/create',
     component: CreateCarForm,
+  },
+  {
+    path: '/cars',
+    component: CarsListScreen,
   },
 ];
 

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { postCar } from '@/services/cars.service';
+import { useCarStore } from '@/stores/carStore';
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
+const { addCarToStore } = useCarStore()
 
 const formData = reactive({
     brand: "",
@@ -11,8 +15,9 @@ const formData = reactive({
 
 const createCar = () => {
     console.log(formData)
-    postCar(formData).then(() => {
-        //gérer la redirection
+    postCar(formData).then((car) => {
+        addCarToStore(car)
+        router.push('/cars')
     })
 }
 
