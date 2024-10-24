@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { postCar } from '@/services/cars.service';
-import { useCarStore } from '@/stores/carStore';
+import useMutationCar from '@/queries/useCarQueries';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter()
 
-const { addCarToStore } = useCarStore()
+const { createCar: { mutate, isPending, error } } = useMutationCar(() => {
+    router.push('/cars')
+})
 
 const formData = reactive({
     brand: "",
@@ -13,12 +14,9 @@ const formData = reactive({
     year: 0
 })
 
-const createCar = () => {
+const createCar = async () => {
     console.log(formData)
-    postCar(formData).then((car) => {
-        addCarToStore(car)
-        router.push('/cars')
-    })
+    mutate(formData)
 }
 
 </script>
@@ -34,7 +32,8 @@ const createCar = () => {
             <input id="model" v-model="formData.model" type="text" required>
             <label for="year">Year</label>
             <input id="year" v-model="formData.year" type="number" required>
-            <button type="submit">Create</button>
+            <button type="submit" :disabled="isPending">Create</button>
+            <p v-if="error">{{ error.message }}</p>
         </form>
     </div>
 </template>

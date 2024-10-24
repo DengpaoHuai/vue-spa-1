@@ -1,38 +1,24 @@
 <script setup lang="ts">
-import useQuery from '@/composables/useQuery';
-import { getCars as getCarsService } from '@/services/cars.service';
-import { useCarStore } from '@/stores/carStore';
-import type { Car } from '@/types/cars';
-import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
+import useMutationCar, { carQueryOptions } from '@/queries/useCarQueries';
+import { useQuery } from '@tanstack/vue-query';
 
-const { data, loading, error } = useQuery<Car[]>(getCarsService)
-const { getCars } = storeToRefs(useCarStore())
-const { setAllCars } = useCarStore()
+const { data: cars, isLoading, error } = useQuery(carQueryOptions)
 
-watch(data, (newData) => {
-    setAllCars(newData!)
-})
-
-const deleteCar = (id: string) => {
-    console.log(id)
-
-}
-
-
+const { deleteCar: { mutate } } = useMutationCar()
 
 </script>
 
 <template>
     <RouterLink to="/cars/create">Créer une voiture</RouterLink>
-    <p v-if="loading">loading...</p>
-    <p v-if="error">error : {{ error }}</p>
-    <div v-if="getCars">
-        <div v-for="(car) in getCars" :key="car._id">
+    <p v-if="isLoading">loading...</p>
+    <p v-if="error?.message">error : {{ error.message }}</p>
+    <div v-if="cars">
+        <div v-for="(car) in cars" :key="car._id">
             <p>{{ car.model }}</p>
-            <button @click="deleteCar(car._id)">
+            <button @click="mutate(car._id)">
                 delete car
             </button>
+            <RouterLink :to="'cars/edit/' + car._id">Edit</RouterLink>
         </div>
     </div>
 </template>
