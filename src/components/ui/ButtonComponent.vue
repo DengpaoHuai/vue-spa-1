@@ -2,7 +2,8 @@
 import { inject } from 'vue';
 
 defineProps<{
-    label: string
+    label: string;
+    variant: 'outlined' | 'filled'
 }>()
 
 defineEmits<{
@@ -14,7 +15,7 @@ const theme = inject('theme')
 </script>
 
 <template>
-    <button :class="`button-${theme}`" @click="$emit('click', 'supp')">{{ label }}</button>
+    <button :class="`button-${theme} variant-${variant}`" @click="$emit('click', 'supp')">{{ label }}</button>
 </template>
 
 <style scoped>
@@ -36,6 +37,17 @@ button {
 
 .button-dark {
     background-color: #333;
+    color: white;
+}
+
+.variant-outlined {
+    border: 1px solid #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+}
+
+.variant-filled {
+    background-color: #4CAF50;
     color: white;
 }
 </style>

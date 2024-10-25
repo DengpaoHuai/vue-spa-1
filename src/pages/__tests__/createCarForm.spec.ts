@@ -16,8 +16,8 @@ describe('MyComponent', () => {
     (useMutationCar as Mock).mockReturnValue({
       createCar: {
         mutate: mutateMock,
-        isPending: false,
-        error: null,
+        isPending: true,
+        error: 'dfgdf',
       },
     });
 
@@ -28,8 +28,8 @@ describe('MyComponent', () => {
 
     const wrapper = mount(CreateCarForm);
 
-    await wrapper.find('input#brand').setValue('Toyota');
-    await wrapper.find('input#model').setValue('Corolla');
+    await wrapper.find('input#brand').setValue('hjghjghj');
+    await wrapper.find('input#model').setValue('Corfgghfgholla');
     await wrapper.find('input#year').setValue(2020);
 
     await wrapper.find('form').trigger('submit.prevent');

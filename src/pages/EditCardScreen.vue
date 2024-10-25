@@ -38,6 +38,13 @@ const updateCar = async () => {
 
 }
 
+const vFocus = {
+    mounted(el: HTMLElement) {
+        el.focus()
+    }
+}
+
+
 </script>
 
 <template>
@@ -45,7 +52,7 @@ const updateCar = async () => {
         <h1>Udapte car</h1>
         <form @submit.prevent="updateCar">
             <label for="brand">Brand</label>
-            <input id="brand" name="brand" v-model="formData.brand" type="text" required>
+            <input v-focus v-check-right id="brand" name="brand" v-model="formData.brand" type="text" required>
             <label for="model">Model</label>
             <input id="model" v-model="formData.model" type="text" required>
             <label for="year">Year</label>

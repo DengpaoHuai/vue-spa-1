@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import DataTable from '@/components/ui/DataTable.vue';
 import { ref } from 'vue';
 const people = ref([
     { name: 'Alice', age: 30 },
@@ -17,6 +16,12 @@ const columns = ref([
 <template>
     <div>
         <DataTable :data="people" :columns="columns">
+            <template #header="{ column }">
+                <span class="custom-header">{{ column.label }}</span>
+            </template>
+            <template #cell-name="{ value }">
+                {{ value }}
+            </template>
             <template #cell-age="{ value }">
                 {{ value }} ans
             </template>

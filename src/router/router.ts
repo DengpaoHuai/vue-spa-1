@@ -1,8 +1,4 @@
-import CarsListScreen from '@/pages/CarsListScreen.vue';
-import CreateCarForm from '@/pages/CreateCarForm.vue';
-import DataTablePage from '@/pages/DataTablePage.vue';
 import DemoPage from '@/pages/DemoPage.vue';
-import EditCardScreen from '@/pages/EditCardScreen.vue';
 import PlanetListComposable from '@/pages/PlanetListComposable.vue';
 import PlanetListPaginatedTanstackQuery from '@/pages/PlanetListPaginatedTanstackQuery.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -18,13 +14,18 @@ const routes = [
   },
   {
     path: '/cars/create',
-    component: CreateCarForm,
+    component: import('@/pages/CreateCarForm.vue'),
+    meta: {
+      layout: 'MainLayout',
+      right: ['admin'],
+    },
   },
   {
     path: '/cars',
-    component: CarsListScreen,
+    component: import('@/pages/CarsListScreen.vue'),
     meta: {
       layout: 'MainLayout',
+      right: ['admin', 'user', 'guest'],
     },
   },
   {
@@ -36,7 +37,7 @@ const routes = [
   },
   {
     path: '/cars/edit/:id',
-    component: EditCardScreen,
+    component: import('@/pages/EditCardScreen.vue'),
     props: true,
     meta: {
       layout: 'MainLayout',
@@ -44,7 +45,11 @@ const routes = [
   },
   {
     path: '/datatable',
-    component: DataTablePage,
+    component: () => import('@/pages/DataTablePage.vue'),
+  },
+  {
+    path: '/planets/list',
+    component: () => import('@/pages/planets/list.vue'),
   },
 ];
 
@@ -54,3 +59,13 @@ const router = createRouter({
 });
 
 export default router;
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.right)) {
+    const rights = to.meta.right as string[];
+    if (!rights.includes('admin')) {
+      next({ path: from.path });
+    }
+  }
+  next();
+});

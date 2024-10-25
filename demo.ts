@@ -1,3 +1,10 @@
-const demo: number = 42;
+type Matieres = {
+  [key: string]: number;
+};
 
-console.log(demo);
+const scores: Matieres = {
+  math: 20,
+  francais: 12,
+};
+
+console.log(scores);

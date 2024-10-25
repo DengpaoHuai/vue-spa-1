@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi, type Mock } from 'vitest';
+import { describe, it, expect, vi, type Mock, afterEach } from 'vitest';
 import { nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import useFetch from '@/composables/useFetch';
@@ -11,6 +11,10 @@ vi.mock('vue-router', () => ({
 }));
 
 describe('MyComponent', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should fetch planets and display them', async () => {
     const mockData = {
       results: [

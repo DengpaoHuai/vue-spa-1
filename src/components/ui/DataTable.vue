@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 
 type Column = {
     key: string;
@@ -10,7 +9,7 @@ type Row = {
     [key: string]: unknown;
 }
 
-const props = defineProps<{
+defineProps<{
     data: Row[];
     columns: Column[];
 }>();
@@ -21,12 +20,20 @@ const props = defineProps<{
         <thead>
             <tr>
                 <th v-for="column in columns" :key="column.key">
-                    <slot name="header" :column="column"></slot>
+                    <slot name="header" :column="column">
+
+                    </slot>
                 </th>
             </tr>
         </thead>
         <tbody>
-
+            <tr v-for="(row, rowIndex) in data" :key="rowIndex">
+                <td v-for="column in columns" :key="column.key">
+                    <slot :name="'cell-' + column.key" :row="row" :value="row[column.key]">
+                        {{ row[column.key] }}
+                    </slot>
+                </td>
+            </tr>
         </tbody>
     </table>
 </template>
