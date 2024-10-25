@@ -1,5 +1,6 @@
 import CarsListScreen from '@/pages/CarsListScreen.vue';
 import CreateCarForm from '@/pages/CreateCarForm.vue';
+import DataTablePage from '@/pages/DataTablePage.vue';
 import DemoPage from '@/pages/DemoPage.vue';
 import EditCardScreen from '@/pages/EditCardScreen.vue';
 import PlanetListComposable from '@/pages/PlanetListComposable.vue';
@@ -40,6 +41,10 @@ const routes = [
     meta: {
       layout: 'MainLayout',
     },
+  },
+  {
+    path: '/datatable',
+    component: DataTablePage,
   },
 ];
 

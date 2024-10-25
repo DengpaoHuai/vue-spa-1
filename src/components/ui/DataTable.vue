@@ -21,7 +21,7 @@ const props = defineProps<{
         <thead>
             <tr>
                 <th v-for="column in columns" :key="column.key">
-                    <slot name="header"></slot>
+                    <slot name="header" :column="column"></slot>
                 </th>
             </tr>
         </thead>

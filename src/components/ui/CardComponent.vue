@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps<{
     title: string,
-    footer: string
 }>()
 
+const demo = "demo value"
 
 </script>
 
@@ -13,9 +13,16 @@ defineProps<{
             {{ title }}
         </h1>
         <slot></slot>
-        <p>
-            {{ footer }}
-        </p>
+        <div class="footer">
+            <slot name="footer" :demo="demo"></slot>
+        </div>
     </div>
 
 </template>
+
+<style scoped>
+.footer {
+    background-color: #f1f1f1;
+    color: black;
+}
+</style>
