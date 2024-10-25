@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
 const page = ref(1)
-const { data, isLoading } = useQuery<PlanetResponse>({
+const { data, isLoading, error } = useQuery<PlanetResponse>({
     queryKey: ['planets', page],
     queryFn: async () => getData(page.value),
     staleTime: 2500,
@@ -16,6 +16,7 @@ const { data, isLoading } = useQuery<PlanetResponse>({
 
 <template>
     <p v-if="isLoading"> isLoading</p>
+    <p v-if="error"> error : {{ error.message }}</p>
     <div v-for="planet in data?.results" :key="planet.url">
         <p>{{ planet.name }}</p>
     </div>

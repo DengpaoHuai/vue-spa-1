@@ -1,4 +1,9 @@
-import { deleteCarById, getCars, postCar } from '@/services/cars.service';
+import {
+  deleteCarById,
+  getCars,
+  postCar,
+  putCard,
+} from '@/services/cars.service';
 import type { Car } from '@/types/cars';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/vue-query';
 
@@ -19,6 +24,27 @@ const useMutationCar = (successCallback?: () => void) => {
         if (!oldData) return [data];
         return [...oldData, data];
       });
+      if (successCallback) successCallback();
+    },
+  });
+
+  const updateCar = useMutation({
+    mutationFn: async ({ id, car }: { id: string; car: Omit<Car, '_id'> }) => {
+      putCard(id, car);
+    },
+    onSuccess: (data, { id, car: updatedCar }) => {
+      console.log(data);
+      queryClient.setQueryData(['cars'], (oldData: Car[]) => {
+        return oldData?.map(car =>
+          car._id === id
+            ? {
+                ...updatedCar,
+                _id: id,
+              }
+            : car,
+        );
+      });
+      queryClient.invalidateQueries(carQueryOptions);
       if (successCallback) successCallback();
     },
   });
@@ -49,6 +75,7 @@ const useMutationCar = (successCallback?: () => void) => {
   return {
     createCar,
     deleteCar,
+    updateCar,
   };
 };
 

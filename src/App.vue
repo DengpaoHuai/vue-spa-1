@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import useError from './composables/useError';
 
 const error = useError()
+
+const route = useRoute()
+
+console.log(route)
+
 </script>
 
 <template>
@@ -10,5 +16,8 @@ const error = useError()
       {{ error.errors }}
     </p>
   </div>
-  <RouterView></RouterView>
+  <component :is="route.meta.layout ?? 'DefaultLayout'">
+    <RouterView></RouterView>
+  </component>
+
 </template>

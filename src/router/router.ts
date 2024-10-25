@@ -22,15 +22,24 @@ const routes = [
   {
     path: '/cars',
     component: CarsListScreen,
+    meta: {
+      layout: 'MainLayout',
+    },
   },
   {
     path: '/demotanstack',
     component: PlanetListPaginatedTanstackQuery,
+    meta: {
+      layout: 'MainLayout',
+    },
   },
   {
     path: '/cars/edit/:id',
     component: EditCardScreen,
     props: true,
+    meta: {
+      layout: 'MainLayout',
+    },
   },
 ];
 

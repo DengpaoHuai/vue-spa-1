@@ -18,3 +18,8 @@ export const deleteCarById = async (id: string) => {
   const response = await crudcrud.delete(`/cars/${id}`);
   return response.data;
 };
+
+export const putCard = async (id: string, car: Omit<Car, '_id'>) => {
+  await crudcrud.put(`/cars/${id}`, car);
+  return id;
+};
