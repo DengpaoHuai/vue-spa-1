@@ -12,7 +12,6 @@ vi.mock('vue-router', () => ({
 
 describe('MyComponent', () => {
   it('should fetch planets and display them', async () => {
-    // Mock du hook useFetch
     const mockData = {
       results: [
         { name: 'Tatooine', url: 'http://swapi.dev/api/planets/1/' },
@@ -31,10 +30,8 @@ describe('MyComponent', () => {
       push: pushMock,
     });
 
-    // Monter le composant
     const wrapper = mount(PlanetListComposable);
 
-    // Vérifier que les planètes sont bien affichées
     await nextTick();
     const planetNames = wrapper.findAll('p');
     expect(planetNames).toHaveLength(2);
@@ -43,7 +40,6 @@ describe('MyComponent', () => {
   });
 
   it('should handle loading state', async () => {
-    // Mock du hook useFetch pour simuler le loading
     (useFetch as Mock).mockReturnValue({
       data: null,
       loading: true,
@@ -52,13 +48,11 @@ describe('MyComponent', () => {
 
     const wrapper = mount(PlanetListComposable);
 
-    // Vérifier que l'état "loading" est affiché
     await nextTick();
     expect(wrapper.text()).toContain('loading...');
   });
 
   it('should handle error state', async () => {
-    // Mock du hook useFetch pour simuler une erreur
     const mockError = 'Failed to fetch planets';
     (useFetch as Mock).mockReturnValue({
       data: null,
@@ -68,20 +62,17 @@ describe('MyComponent', () => {
 
     const wrapper = mount(PlanetListComposable);
 
-    // Vérifier que l'erreur est bien affichée
     await nextTick();
     expect(wrapper.text()).toContain(`error : ${mockError}`);
   });
 
   it('should push to demo page when button is clicked', async () => {
-    // Mock du hook useFetch
     (useFetch as Mock).mockReturnValue({
       data: null,
       loading: false,
       error: null,
     });
 
-    // Mock du router
     const pushMock = vi.fn();
     (useRouter as Mock).mockReturnValue({
       push: pushMock,
@@ -89,10 +80,8 @@ describe('MyComponent', () => {
 
     const wrapper = mount(PlanetListComposable);
 
-    // Simuler un clic sur le bouton
     await wrapper.find('button').trigger('click');
 
-    // Vérifier que le push a été appelé
     expect(pushMock).toHaveBeenCalledWith('/demo');
   });
 
@@ -102,16 +91,13 @@ describe('MyComponent', () => {
 
     const wrapper = mount(PlanetListComposable);
 
-    // Vérifier que l'événement de défilement est ajouté au montage
     expect(addEventListenerSpy).toHaveBeenCalledWith(
       'scroll',
       expect.any(Function),
     );
 
-    // Détruire le composant
     wrapper.unmount();
 
-    // Vérifier que l'événement de défilement est supprimé au démontage
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
       'scroll',
       expect.any(Function),
